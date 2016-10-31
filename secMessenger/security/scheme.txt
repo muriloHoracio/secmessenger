@@ -1,0 +1,36 @@
+#########################################################
+#							#
+#	SECURITY  SCHEME FOR SECMESSENGER SYSTEM        #
+#							#
+#	AUTHOR: MURILO HORACIO P. DA CRUZ       	#
+#							#
+#							#
+#########################################################
+
+
+Login Security:
+
+	1 - Storing:
+		-username is stored as plain text.
+		-password is stored as a hash by sha512.
+		-user has a salt data stored to be used combined with the password hash.
+
+	The password is hashed by the sha512 algorithm, so all the passwords are stored by its hashes and to make the system more secure each user has a salt data associated with its password hash. This salt data is used in the hash of the user password, so that if a hacker attempts to crack the passwords by a brute force attack it will need to crack first the salt data and then the password, because if he cracks the hash that is used to verify if the password is correct this hash have a salt in it, which means that the hacker didn't crack the password, instead he has cracked the password plus the salt, but this don't mean anything.
+
+Messages Cryptography:
+
+	2 - Storing:
+		Best way to store encrypted messages is to use the assimetric encryption to guarantee the authenticity, confidentiality and intregity.
+		To do so the sender needs to encrypt the message with the receiver's public key, so it's guarantee that only the receiver is capable to read the content of the message. To guarantee that the sender was really the trully sender of the message and to guarantee that the message was not altered while it was transmitted the sender needs to hash the main message and encrypts it with his private key, in that way the receiver needs to hash the main message and needs to decrypt it with the sender's public key, then the receiver compares the two hashes. If the two hashes matched then the receiver knows that the sender was the really sender of the message because only he knwos his private key and the receiver knows that the message was not altered because the two hashes matched. 
+		-Sender:
+			1 - Hashes the main message
+			2 - Encrypt the main message's hash with his private key
+			3 - Encrypts the whole message (integrity/authenticity header + main message) with the receiver's public key
+			4 - Sends the encrypted text
+
+		-Receiver:
+			1 - Decrypts the whole message with his public key
+			2 - Hashes the main message
+			3 - Decrypt the integrity/authenticity header with the sender's public key
+			4 - Compare the two hashes
+			5 - If it matches we accept the message, if not the message is rejected

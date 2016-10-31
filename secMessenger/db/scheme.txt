@@ -1,0 +1,32 @@
+#################################################
+#						#
+#	DATABASE SCHEME FOR SECMESSENGER	#
+#						#
+#	AUTHOR: MURILO HORACIO P. DA CRUZ	#
+#						#
+#################################################
+
+usertable:
+	- email: varchar 200, unique, primary key 
+	- username: varchar 50, unique, primary key
+	- password: varchar 200, not null
+	- passwordsalt: varchar 200, not null
+	- name: varchar 200, not null
+	- cpf: varchar 14, not null
+	- telefone: varchar 20
+	- estado: varchar 2, not null
+	- cidade: varchar 200, not null
+	- bairro: varchar 200, not null
+	- rua: varchar 200, not null
+	- numero: varchar 10, not null
+	- cep: varchar 10, not null
+	- privatekey: varchar 200, not null
+	- publickey: varchar 200, not null
+
+
+conversation:
+	- senderUser: varchar 50, foreign key of table usertable, not null
+	- receiverUser: varchar 50, foreign key of table usertable, not null
+	- time: timestamp, not null
+	- message: text, not null
+ 
